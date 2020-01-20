@@ -4,25 +4,21 @@
 [![dependencies Status](https://david-dm.org/BlackrockDigital/startbootstrap-sb-admin/status.svg)](#)
 [![devDependencies Status](https://david-dm.org/BlackrockDigital/startbootstrap-sb-admin/dev-status.svg)](#)
 
-# <a>Django Crud, Ajax, Login, Register,Dashboard Etc </a>
+# <a>Django Crud, Ajax, Login, Register,Dashboard Graphs Etc </a>
 
-### Live demo <a target="_blank" href="https://gowtham-django-app.herokuapp.com/">Click Here</a>
-##### username : gowthaman.nkl1@gmail.com , password : Welcome@123
 
-Save Developer for Feature Developement Please Donate a small Money
-Make a donation to you as much as possible
- <a href="https://paypal.me/gowthamdurai?locale.x=en_GB">Donate a 1$</a>
 
 #### Key Features
 - 1 . Register
 - 2 . Login
-- 3 . File Upload
 - 4 . Form Validation
-- 5 . CRUD Application
-- 6 . Ajax CRUD Application
-- 7 . File Upload
-- 8 . CSV Import
-- 9 . CSV Export
+- 6 . Ajax user creation and form submission
+- 7 . Representing Indicators and Baseline's  with graphs 
+- 8 . Market survey
+- 9 . Market commodity price tracking based on per visit
+etc
+
+
 
 # Step for Set Up
 ``` 
@@ -45,7 +41,8 @@ Make a donation to you as much as possible
  9. Login to http://127.0.0.1:8000
 
  10. python3 manage.py createsuperuser (enter username, email, password)
-
+ 
+ 11. using postgressdb mased on my requirments or certian featurs which are supported by postgrss only
 ```
 ## Dont't Forgot do star and fork
 
