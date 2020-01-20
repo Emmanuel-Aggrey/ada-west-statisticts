@@ -1,8 +1,3 @@
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](#)
-[![npm version](https://img.shields.io/npm/v/startbootstrap-sb-admin.svg)](#)
-[![Build Status](https://travis-ci.org/BlackrockDigital/startbootstrap-sb-admin.svg)](#)
-[![dependencies Status](https://david-dm.org/BlackrockDigital/startbootstrap-sb-admin/status.svg)](#)
-[![devDependencies Status](https://david-dm.org/BlackrockDigital/startbootstrap-sb-admin/dev-status.svg)](#)
 
 # <a>Django Crud, Ajax, Login, Register,Dashboard Graphs Etc </a>
 
@@ -22,11 +17,11 @@ etc
 
 # Step for Set Up
 ``` 
- 1. git clone https://github.com/gowthamand/django-crud-ajax-login-register-fileupload
+ 1. git clone https://github.com/Emmanuel-Aggrey/ada-west-statisticts/edit/master/
 
- 2. Change settings.py MYSQL CONFIGURATIONS (name, user, password)
+ 2. Change settings.py Postgress CONFIGURATIONS (name, user, password,port)
 
- 3.  cd django-crud-ajax-login-register-fileupload
+ 3.  cd ada-west-statisticts
 
  4. pip3 install -r requirements.txt
 
