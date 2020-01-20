@@ -1,0 +1,49 @@
+{% extends 'layout/app.html' %}
+{% load crispy_forms_tags %}
+{% load humanize %}
+{% block body %}
+
+<nav class="breadcrumb">
+  <a class="breadcrumb-item back" href="#">BACK</a>
+</nav>
+
+
+<nav class="breadcrumb">
+    <a class="breadcrumb-item" href="{% url 'department:all_department' %}">BACK</a>
+    <a class="breadcrumb-item" href="{% url 'department:quartally_data' %}">QAURTALY REPORT</a>
+
+    <a class="breadcrumb-item" href="{% url 'department:annualy_data' %}">ANNUAL REPORT</a>
+
+    <a class="breadcrumb-item" href="#"></a>
+    <!-- <span class="breadcrumb-item active"></span> -->
+</nav>
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-lg-8 col-xl-8">
+            <form action="" method="POST">
+                <h4 name='department' class="lead">ADD TO <b class="text-info">{{ department }}</b> DEPARTMENT </h4>
+                {% csrf_token %}
+                {{form|crispy}}
+
+
+                <input class="btn btn-outline-dark btn-block" type="submit" value="submit">
+
+
+            </form>
+
+        </div>
+
+    </div>
+</div>
+
+
+<script>
+    document.getElementById('id_department').readOnly = true
+    // document.querySelector("#id_department").readOnly =true
+</script>
+ <script src="{% static "bootstrap/js/back.js" %}"></script>
+
+
+{% endblock %}

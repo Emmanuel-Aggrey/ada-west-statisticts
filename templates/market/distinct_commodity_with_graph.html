@@ -1,0 +1,172 @@
+{% extends 'layout/app.html' %}
+{% load crispy_forms_tags %}
+
+{% load static %}
+{% block body %}
+
+<nav class="breadcrumb">
+    <a class="breadcrumb-item" href="{% url 'market:market' %}">Home</a>
+    <a class="breadcrumb-item" href="{% url 'market:add_new_date' request.session.visit_new_date_back_id %}">Back</a>
+
+    <!-- <a class="breadcrumb-item" href="#"></a> -->
+    <span class="breadcrumb-item active"></span>
+</nav>
+
+<script src="{% static "bootstrap/js/jquery-3.3.1.min.js" %}"></script>
+
+<div class="container">
+
+        
+    <ul class="">
+       <b>
+            <li> Market: {{market_name}}</li>
+        <li> Commodity: {{c_type}} </li>
+        <li>Commodity Type: {{commodity}}</li>
+        <li>Unit of Measure:   {{unit_of_sale}}</li>
+       </b>
+    </ul>
+  
+      
+       
+    <div class="row">
+        <div class="col">
+            <table class="table table-bordered table-striped table-sm">
+     
+                        <thead class="alert-info">
+                        <tr>
+                        
+                            
+                            <th>Num Of Pieces</th>
+                            <th>Weight</th>
+                            <th> Price (GH₵)</th>
+                            <th>Visit Date</th>
+                              <th>Trader</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for products in commodity_type %}
+                            <tr>
+                                <td>{{ products.num_pieces }}</td>
+                                <td>{{ products.weight_volume }}</td>
+                                <td>{{products.price}}</td>
+                                <td>{{products.visit_day.date}}</td>
+                                <td>{{products.trader}}</td>                 
+                            </tr>
+
+                            
+                        {% endfor %}
+                        </tbody>
+                    </table>
+
+                    {% if get_description %}
+                    <p class="text-muted"> <u>DESCRIPTION</u> </p>
+                    <h6> about {{get_description.description}}</h6>
+
+                    {% elif request.user.is_staff %}
+
+                    <!-- <td>Add</td> -->
+
+
+                    <form action="" method="post">
+                            {% csrf_token %}
+                             {{form}}
+                            <button type="submit" class="btn btn-primary">Submit</button> 
+                           
+                        </form>
+                    {% endif %}
+
+                  
+                    
+
+
+                    
+        </div>
+        <div class="col">
+              <div id="myChart"></div>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- var dataURL =  `/distinct_commodity/brown/Yam/Kasee/` -->
+
+<!-- commodity_type.name commodity_types.commodity_type.name commodity_types.visit_day.market_name.name -->
+
+<script>
+
+
+
+        var objId = '{{commodity}}/{{c_type}}/{{market_name}}' 
+        //  console.log(objId) 
+        var dataURL  = `/buidInCommodityChart/${objId}/`
+        // console.log(dataURL)
+        var state = {
+            'items':[],
+            'values':[],
+        }
+       
+    
+        $.ajax({
+            method: "GET",
+            url: dataURL,
+            success: function (response) {
+                // console.log('response ', response)
+                for(var i in response){
+                    var key = Object.keys(response[i])[0]
+                    var value = Object.values(response[i])[0]
+    
+                    state.items.push(key)
+                    state.values.push(value)
+                }
+                // console.log('state ',state)
+                //calling  buildChart
+                buildChart()
+            }
+        })
+    
+        function buildChart() {
+    
+            var chartData = {
+                "type": "bar",
+                plot: {
+                    // styles:['#007BFF'],
+                    styles: [ "#1c4ab1", "orange", "yellow", "green", "red", "purple", "brown", "black" ], /* Bar Fill by Node */
+                    'border-radius': "9px",
+    
+                    'value-box': {
+                    //Displays all data values by default.
+                    }
+                    
+                    },
+    
+                "scale-x": {
+                    "values":state.items,
+                    
+    
+                },
+                "series": [{
+                    "values":state.values,
+                    // 'background-color': "#6666FF #FF0066", /* Bar fill color (gradient) */
+                    //  alpha: 0.3,
+        //             'hover-state': { /* Hover object */
+        //             'background-color': "orange",
+        //             'border-width':3,
+        //             'border-color': "purple",
+        //             'line-style': "dotted"
+        //   }
+                }]
+            }
+    
+            zingchart.render({
+                id: "myChart",
+                data: chartData,
+            });
+    
+    
+        }
+      
+
+    </script>
+    
+{% endblock %}

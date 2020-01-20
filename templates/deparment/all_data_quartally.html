@@ -1,0 +1,149 @@
+{% extends 'layout/app.html' %}
+{% load crispy_forms_tags %}
+{% load humanize %}
+{% block body %}
+
+
+
+
+<div class="container">
+
+
+
+{% if messages %}
+
+
+{% for message in messages %}
+<div class="alert alert-{{ message.tags }}  alert-dismissible fade show" role="alert">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+  <strong>
+        <h5 class="text-center">{{ message }}</h5>
+  </strong> 
+</div>
+<!-- 
+<script>
+  $(".alert").alert();
+</script> -->
+
+{% endfor %}
+  
+{% endif %}
+
+
+
+        <nav class="breadcrumb">
+                <a class="breadcrumb-item" href="{% url 'department:all_department' %}">HOME</a>
+                <a class="breadcrumb-item" href="{% url 'department:annualy_data' %}">ANNUAL REPORT</a>
+                <button id="btPrint" title="print table" onclick="createPDF()" class="float-right mx-4 "> <i class="fa fa-print"
+                    aria-hidden="true"></i> print</button>
+                <!-- <span class="breadcrumb-item active"></span> -->
+            </nav>
+            <!-- <button class="float-right" onclick="createPDF()">print</button> -->
+        
+<div class="row">
+    
+    <div class="col-xl-10 col-lg-10 col-md-10 col-sm-10">
+
+
+            
+            <h4 class="lead text-center">QUARTALLY REPORT</h4>
+            
+                <form class="form-inlin" action="#">
+            
+                        {{form}}
+                        <input class="btn-outline-secondary mx-4 btn-md" type="submit" value="search">
+               <hr>
+
+               <div class="float-right mx-4 my-4" title="seach by indicatores or department">
+                    <input title="" placeholder="search" class="seach by indicatores or department" value="" type="search" name="keyword"
+                          id=""><button type="submit"><i class="fa fa-search"
+                                aria-hidden="true"></i></button>
+                                <hr>
+
+              </div>
+
+                        
+                            <div class="print_table table-responsive">
+                            <table class="table table-bordered table-striped table-sm my-4 hover">
+                                    <caption>QUARTALLY REPORT</caption>
+                                  
+                                    <thead class="alert-info">
+                                        <tr>
+                                            <th>Department</th>
+                                            <th>Indicators</th>
+                                            <th>Base Line</th>
+                                            <th>Date</th>
+                                            <th>Created At</th>
+                                            <th class="edit">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for query_set in query_set %}
+                                            <tr>
+                                                <td>{{ query_set.department }}</td>
+                                                <td>{{ query_set.indicators }}</td>
+                                                <td>{{ query_set.base_line }}</td>
+                                                <td>{{ query_set.date }}</td>
+                                                <td>{{ query_set.date_updated}}</td>
+                                                <!-- <td>{{ query_set.created_at  |date:"d-m-Y H:i:s"}}</td> -->
+                                                <td class="edit" ><a id="a_print" class="btn btn-sm btn-warning" href="{% url 'department:update_departmant_Date' query_set.id %}"><span class="fa fa-edit"></span> Edit</a>
+                                                    <!-- <form action="{% url 'department:delete' query_set.id %}" method="POST">
+                                                        {% csrf_token %}
+                                                    <button class="fa fa-trash btn-sm">delete</button>
+                                                    </form> -->
+                                                    <!-- <a class="btn btn-sm btn-danger" href=""><span class="fa fa-trash"></span> Delete</a> -->
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+            
+                       </div>
+            
+            
+            </form>
+    </div>
+    <div class="col">
+            <br><br><br><br>
+            <h5>   {{query_set|length}} of {{total}} found </h5>
+       <hr>
+        BASE LINE
+<h5  class="lead ml-4">{{sum_of_base_line|intcomma|cut:'}'|cut:'{'|cut:':'|cut:"'base_line__sum'"}}</h5>
+
+<hr>
+<!-- 
+<form method="get">
+   <div class="form-group">
+    <select name="order" class="form-control">
+        <option class="" selected="true" disabled="disabled">orde by</option>
+        {% for key,value in order.items %}
+            <option value="{{ key }}" 
+            {% if key == values.department__name %}
+              selected
+            {% endif %}
+            >{{ value }}</option>
+          {% endfor %}
+      </select>
+   </div>
+      <input class="my-4" type="submit" value="submit">
+</form> -->
+
+    </div>
+</div>
+</div>
+
+<!-- <script>
+
+printIt = document.getElementById('a_print')
+btn = document.getElementById('btPrint').addEventListener(onclick) -->
+<!-- 
+function remove(){
+    
+}
+
+</script> -->
+<del>hi aggrey</del>
+
+{% endblock %}

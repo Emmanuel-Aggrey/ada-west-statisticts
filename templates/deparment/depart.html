@@ -1,0 +1,100 @@
+{% extends 'layout/app.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block body %}
+<section class="section"">
+<nav class="breadcrumb">
+        <a class="breadcrumb-item back" href="#">BACK</a>
+       
+      </nav>
+      
+
+
+        <div class="container">
+            <div class="row ">
+                <div class="col">
+                        <h5 class="text-center">{{ filter_department }}</h5>
+                        <hr>
+                     
+                        {% for indicators in filter_department.indicators.all  %}
+
+                        <b>
+                              
+                                <ul class="list-unstyled">
+                        
+                                    <li>INDICATOE :{{indicators.indicator|upper}} </li>
+                                    <li>BASELINE:  {{indicators.indicator_baseline.base_line}}</li>
+                                    <li> VALUE: {{indicators.indicator_baseline.value}}</li>
+                                    <li> ACTIVITY: {{indicators.indicator_baseline.activity}}</li>
+
+
+                                </ul>
+                        
+                        </b>
+                       
+                                  
+                                    <table class="table table-hover table-sm table-striped">
+                                            <caption>REPORT</caption>
+
+                                        <thead class="" style="background: rgb(204, 204, 233);">
+                                           <tr>
+                                                <th>Year</th>
+                                            <th>Value</th>
+                                            <th>Activity</th>
+                                            <th>Description</th>
+                                            <th>Edit</th>
+                                        </thead>     
+                                           </tr>
+                    
+                                  
+                                            {% for report  in indicators.indicator_baseline.all_saved_reports.all %}
+                                          
+                                            <tbody>
+                    
+                                        <tr>
+                    
+                                            <td>{{report.date}}</td>
+                                            <td class=""> {{report.value}}</td>
+                                            {% if report.activity %}
+                                        
+                                            <td class="" title="{{report.activity}}" data-toggle="tooltip"><p class="fa fa-eye fa-2x" ></p> </td>
+                                            {% else %}
+                                            <td> none</td>
+                                            {% endif %}
+                                            
+                                            {% if report.description %}
+                                            <td class="fa fa-eye fa-2x " title=" {{report.description}}" data-toggle="tooltip"> </td>
+                                            {% else %}
+                                            <td>none</td>
+                                            {% endif %}
+                                           <td ><a title="edit"  data-toggle="tooltip" class="fa fa-pencil" href="{% url 'department:updateReport' report.id filter_department.name %}"></a></td>
+                                        </tr>
+                                        
+                                        {% endfor %}
+                                      
+                                    </tbody>
+                                </table>
+                              
+                                    
+                              
+                              <br> <hr class="bg-danger">
+                              
+
+                                {% endfor %}
+                               
+
+                              
+                </div>
+            </div>
+        </div>
+ </section>
+
+ <script src="{% static "bootstrap/js/back.js" %}"></script>
+
+ <style>
+ .section{
+     background: rgb(208, 208, 221);
+ }
+ </style>
+    {% endblock %}

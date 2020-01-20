@@ -1,0 +1,16 @@
+{% extends 'layout/app.html' %}
+{% load crispy_forms_tags %}
+
+{% block body %}
+
+{{get_description}}
+<div class="container">
+    <div class="row">
+        <form action="" method="post">
+            {{form_update}}
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

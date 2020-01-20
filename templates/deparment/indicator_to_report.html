@@ -1,0 +1,201 @@
+{% extends 'layout/app.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block body %}
+<div class="paint">
+<nav class="breadcrumb">
+  <a class="breadcrumb-item back" href="#">BACK</a>
+</nav>
+
+<script src="{% static "bootstrap/js/jquery-3.3.1.min.js" %}"></script>
+<!-- <script src="{% static "jquery/jquery.min.js" %}"></script> -->
+<div class="container">
+   <div class="row">
+       
+    <div class="col">
+        <ul>
+            <li><b>Department</b> : {{indicator.department.name}}</li>
+            <li class=""><b>Indicator</b> : {{reports.indicator.indicator|upper}}  </li>
+            <li><b>Base Line</b>: {{ reports.base_line }} </li>
+            <li><b>Value</b>   {{ reports.value }}</li>
+            <li><b>Activity</b> :{{reports.activity}}</li>
+
+        </ul>
+       
+<!-- <h5 class="lead text-center"> <em>{{reports}}</em> </h5> -->
+
+
+
+<div class="print_table table-responsive">
+    <table class="table table-bordered table-striped table-sm my-4 table-hover table-respojnsive">
+        <caption> yearly reports </caption>
+            <thead class="alert-info">
+                <tr>
+                    <th>Year</th>
+                    <th>value</th>
+                    <th>Activity</th>
+                    <th>Description</th>
+                   
+                   
+                </tr>
+            </thead>
+            <tbody>
+                {% for reports in reports.all_saved_reports.all  %}
+                
+                    <tr>
+                        <td>{{ reports.date }}</td> 
+                        <td>{{ reports.value }}</td>
+                        {% if reports.activity %}
+                        <td data-toggle="tooltip" title="{{ reports.activity }}"><p class="fa fa-eye fa-2x"></p></td>
+    
+                        {% else %}
+                        <td>none</td>
+                        
+                        {% endif %}
+                       {% if reports.description %}
+                          <td data-toggle="tooltip" class="fa fa-eye fa-2x" title=" {{reports.description}}"> 
+                            
+                    {% else %}
+                       <td>none</td>
+                       
+                       {% endif %}
+                        <!-- <td>{{ reports.created_at  |date:"d-m-Y H:i:s"}}</td> -->
+                        <!-- <td><a class="btn btn-sm btn-warning" href="{% url 'department:update_departmant_Date' reports.id %}"><span class="fa fa-edit"></span> Edit</a> -->
+                            <!-- <a class="btn btn-sm btn-danger" href="delete/{{ reports.id }}"><span class="fa fa-trash"></span> Delete</a> -->
+                        <!-- </td> -->
+                    </tr>
+                    {% empty %}
+                    nothing in here
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% if indicator.description  %}
+    
+    <p >
+        {{indicator.description}}
+        {% if request.user.is_staff %}
+        <a title="edit" class="fa fa-pencil" href="{% url 'department:update_description' indicator.description.id  %}"></a>
+
+          
+        {% endif %}
+    </p>
+    {% elif request.user.is_staff  %}
+      
+    <form action="" method="POST">
+            {% csrf_token %}
+             {{form|crispy}}
+             <input class="btn btn-outline-primary" type="submit" value="save">
+        </form>
+    {% endif %}
+    
+      
+   </div>
+   <div class="col">
+      <!--  -->
+     
+        <div id="myChart"></div>
+        <!-- <small class="float-right">write click on chart to get data</small> -->
+   </div>
+ 
+
+</div>
+
+
+  <!-- <div id="myChart"></div> -->
+
+<script>
+var baseline_value = '{{reports.value }}'
+let baseline_value__to_int =parseInt(baseline_value)
+var baseline_year = '{{ reports.base_line}}'
+    var state = {
+        'items':['baseline:'+' {{ reports.base_line }}',],
+        'values':[baseline_value__to_int,],
+    }
+    var objId = '{{indicator.id}}/{{indicator.department.name}}'
+    
+
+    // console.log('please ', objId)
+    var dataURL = `/buidIndicatorChat/${objId}/`
+    // var dateUrl = '/resultdata/${objId}/'
+
+    $.ajax({
+        method: "GET",
+        url: dataURL,
+        success: function (response) {
+            // console.log('response ', response)
+            for(var i in response){
+                var key = Object.keys(response[i])[0]
+                var value = Object.values(response[i])[0]
+
+                state.items.push(key)
+                state.values.push(value)
+            }
+            // console.log('state ',state)
+            //calling  buildChart
+            buildChart()
+        }
+    })
+
+    function buildChart() {
+
+        var chartData = {
+            "type": "bar3d",
+            plot: {
+                // styles:['#007BFF'],
+                styles: [ "#1c4ab1", "orange", "yellow", "green", "red", "purple", "brown", "black" ], /* Bar Fill by Node */
+                'border-radius': "9px",
+
+                'value-box': {
+                //Displays all data values by default.
+                }
+                
+                },
+
+            "scale-x": {
+                "values":state.items,
+                
+
+            },
+            "series": [{
+                "values":state.values,
+                // 'background-color': "#6666FF #FF0066", /* Bar fill color (gradient) */
+                //  alpha: 0.3,
+    //             'hover-state': { /* Hover object */
+    //             'background-color': "orange",
+    //             'border-width':3,
+    //             'border-color': "purple",
+    //             'line-style': "dotted"
+    //   }
+            }]
+        }
+
+        zingchart.render({
+            id: "myChart",
+            data: chartData,
+        });
+
+
+    }
+
+
+</script>
+
+
+ <script src="{% static "bootstrap/js/back.js" %}"></script>
+
+<style>
+/* tr{
+    float:left;
+} */
+
+.paint{
+    background: rgb(235, 235, 240);
+}
+
+</style>
+</div>
+{% endblock %}
+

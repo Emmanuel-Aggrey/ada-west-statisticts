@@ -1,0 +1,127 @@
+{% extends 'layout/app.html' %}
+{% load crispy_forms_tags %}
+
+{% block body %}
+
+
+<section>
+
+<nav class="breadcrumb">
+    {% comment %} <a class="breadcrumb-item" href="{% url 'department:all_report' %}"> REPORT</a> {% endcomment %}
+    {% comment %} <a class="breadcrumb-item" href="{% url 'department:annualy_data' %}">ANNUAL REPORT</a> {% endcomment %}
+    <!-- Button trigger modal -->
+   {% if request.user.is_staff %}
+   
+  <button  title="add a new department" type="button" class="btn btn-primary btn-sm mx-4" data-toggle="modal" data-target="#modelId">
+      Add New Department
+    </button>
+    
+   {% endif %}
+    <!-- Modal -->
+    <div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">ADD A NEW DEPARTMENT</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                </div>
+                <div class="modal-body">
+                   <form action="" method="post">
+                        {% csrf_token %}
+                        <table>
+                                {{form.as_table}}
+                              
+        
+                            </table>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save</button>
+
+                            <!-- <input class="info" type="submit" value="submit"> -->
+                   </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- <span class="breadcrumb-item active"></span> -->
+</nav>
+
+<div class="container">
+
+   <!-- <div class="row"> -->
+   
+       <!-- <div class="col"> -->
+       <form action="" method="get">
+        <div class="mx-4 my-4 " title="seach for a department">
+                    <input title="" placeholder="search" class="seach leadby department" value="{{ request.GET.keyword }}" type="text" name="keyword"
+                          id="">
+                          <button type="submit"><i class="fa fa-search"
+                                aria-hidden="true"></i></button>
+                                <hr>
+
+              </div>
+            <h4 class="lead mx-4 sticky"> DEPARTMENTS {{departmants|length}}</h4>
+            {% for all_department in departmants  %}
+            <div class="card-deck mx-4 my-4">
+                <div class="card ">
+                    <div class="card-header">
+                           <h4 class=" "> <b>{{ all_department.name  }}</b> </h4>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">
+                        {% if request.user.is_staff  %}
+                        
+                         <a class="btn btn-primary btn-sm mx-4 a1" title="add a new indicator " href="{% url 'department:add_indicator' all_department.id  %}" class="btns btn-prismary add_indicator">Add Indicator </a>
+
+                        {% endif %}
+                                <a class="btn btn-info btn-sm mx-4 a2" title="view all indicators" href="{% url 'department:allindicator' all_department.id  %}" class="bstn btn-primasry view_indicator">View Indicators</a>
+                                <a class="btn btn-danger btn-sm mx-4 a3" title="shows all record in this departmant" href="{% url 'department:filter_by_department' all_department.id all_department.name %}">View All </a> 
+
+                        </h5>
+                       
+                      
+
+                    </div>
+                    <div class="card-footer">
+                           created on: {{ all_department.date_add  }}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </form>
+
+       <!-- </div> -->
+      
+   <!-- </div> -->
+
+</div>
+
+</section>
+
+
+
+<style>
+
+.a1:hover{
+    background-color:darkgrey;
+}
+.a2:hover{
+    background-color:darkgrey;
+}
+.a3:hover{
+    background-color:darkgrey;
+}
+
+</style>
+
+{% endblock %}
+
+<a title="add a new indicator " href="{% url 'department:add_indicator' all_department.id  %}" class="btn btn-primary add_indicator">Add Indicator </a>
+
+</td>
+<td>
+        <a title="view all indicators" href="{% url 'department:allindicator' all_department.id  %}" class="btn btn-primary view_indicator">View Indicators</a>

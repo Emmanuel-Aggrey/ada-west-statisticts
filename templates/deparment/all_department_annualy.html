@@ -1,0 +1,106 @@
+{% extends 'layout/app.html' %}
+{% load crispy_forms_tags %}
+{% load humanize %}
+{% block body %}
+
+
+
+
+
+<nav class="breadcrumb">
+
+{% if messages %}
+
+
+{% for message in messages %}
+<div class="alert alert-{{ message.tags }}  alert-dismissible fade show" role="alert">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+  <strong>
+        <h5 class="text-center">{{ message }}</h5>
+  </strong> 
+</div>
+
+<script>
+  $(".alert").alert();
+</script>
+
+{% endfor %}
+  
+{% endif %}
+    <a class="breadcrumb-item" href="{% url 'department:all_department' %}">HOME</a>
+        <a class="breadcrumb-item" href="{% url 'department:quartally_data' %}">QAURTALY REPORT</a>
+        <button id="btPrint" title="print table" onclick="createPDF()" class="float-right mx-4 "> <i class="fa fa-print"
+            aria-hidden="true"></i> print</button>
+    <!-- <span class="breadcrumb-item active"></span> -->
+</nav>
+<div class="container">
+<div class="row">
+    <div class="col-xl-10 col-lg-10 col-md-10 col-sm-10">
+
+
+<h4 class="lead text-center">ANNUAL REPORT</h4>
+
+<form action="#">
+
+        {{form}}
+        <input type="submit" value="submit">
+
+        <hr>
+
+        <div class="float-right mx-4 my-4" title="seach by indicatores or department">
+                <input title="" placeholder="search" class="seach by indicatores or department" value="" type="search" name="keyword"
+                      id=""><button type="submit"><i class="fa fa-search"
+                            aria-hidden="true"></i></button>
+                            <hr>
+
+          </div>
+
+<div class="print_table table-responsive">
+    <table class="table table-bordered table-striped table-sm my-4">
+            <thead class="alert-info">
+                <tr>
+                    <th>Department</th>
+                    <th>Indicators</th>
+                    <th>Base Line</th>
+                    <th>Date</th>
+                    <th>Created At</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for query_set in query_set %}
+                    <tr>
+                        <td>{{ query_set.department }}</td>
+                        <td>{{ query_set.indicators }}</td>
+                        <td>{{ query_set.base_line }}</td>
+                        <td>{{ query_set.date }}</td>
+                        <td>{{ query_set.date_updated}}</td>
+                        <!-- <td>{{ query_set.created_at  |date:"d-m-Y H:i:s"}}</td> -->
+                        <td><a class="btn btn-sm btn-warning" href="{% url 'department:update_departmant_Date' query_set.id %}"><span class="fa fa-edit"></span> Edit</a>
+                            <!-- <a class="btn btn-sm btn-danger" href="delete/{{ query_set.id }}"><span class="fa fa-trash"></span> Delete</a> -->
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+</div>
+
+
+</form>
+    </div>
+    <div class="col">
+
+            <br><br><br><br>
+            <h5>   {{query_set|length}} of {{total}} found </h5>
+
+       <hr>
+        BASE LINE
+<h5 class="lead">{{sum_of_base_line|cut:'base_line__sum'|cut:'}'|cut:'{'|cut:':'}}</h5>
+
+    </div>
+</div>
+</div>
+{% endblock %}

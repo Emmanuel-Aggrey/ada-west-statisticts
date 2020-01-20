@@ -1,0 +1,107 @@
+
+{% extends 'layout/app.html' %}
+{% load crispy_forms_tags %}
+
+{% block body %}
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-10 col-xl-10 col-md-10">
+                <div class="print_table table-responsive">
+                      
+        <!-- start table -->
+        <form action="" method="get">
+      
+        <table width="100%" cellpadding="4" cellspacing="0" style="page-break-before: always; page-break-inside: avoid " class="table-responsive table-hover">
+                <col width="35*"/>
+            
+                <col width="35*"/>
+            
+                <col width="35*"/>
+            
+                <col width="47*"/>
+            
+                <col width="35*"/>
+            
+                <col width="35*"/>
+            
+                <col width="35*"/>
+                <thead class="alert-info">
+                <tr valign="top">
+                    <td rowspan="2" width="14%" style="border-top: 1px double #808080; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0.04in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center" style="margin-top: 0.36in">
+                        Department</p>
+                    </td>
+                    <td colspan="3" width="45%" style="border-top: 1px double #808080; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0.04in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                        Indicator</p>
+                    </td>
+                    <td colspan="2" width="27%" style="border-top: 1px double #808080; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0.04in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                        Report</p>
+                    </td>
+                    <td rowspan="2" width="14%" style="border: 1px double #808080; padding: 0.04in"><p align="center" style="margin-top: 0.4in">
+                        Description</p>
+                    </td>
+                </tr>
+            
+                <tr valign="top">
+                    <td width="14%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                        Base Line</p>
+                    </td>
+                    <td width="14%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                        Indicator</p>
+                    </td>
+                    <td width="18%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                        Value</p>
+                    </td>
+                    <td width="14%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                        Base Line</p>
+                    </td>
+                    <td width="14%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                        Value</p>
+                    </td>
+                </tr>
+            </thead>
+            <tbody class="text-center">
+                    {% for all_reports in all_report %}
+                <tr valign="top">
+                    <td width="14%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                            {{ all_reports.base_line.indicator.department.name }}</p>
+                    </td>
+                    <td width="14%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p>
+                            {{ all_reports.base_line.indicator.indicator }}</p>
+                    </td>
+                    <td width="14%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in" sdval="4" sdnum="1033;"><p>
+                            {{ all_reports.base_line.base_line|date:'Y' }}</p>
+                    </td>
+                    <td class="bg-light text-danger" width="18%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p>
+                            {{ all_reports.base_line.value}}</p>
+                    </td>
+                    <td width="14%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in" sdval="4" sdnum="1033;"><p align="center">
+                            {{ all_reports.base_line.base_line|date:'Y' }}</p>
+                    </td>
+                    <td class="bg-light  text-danger" width="14%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in" sdval="44" sdnum="1033;"><p>
+                            {{ all_reports.value }}</p>
+                    </td>
+                    <td width="14%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in"><p>
+                            {{ all_reports.description}}</p>
+                    </td>
+                </tr>
+                {% empty %}
+                {% endfor %}
+            </tbody>
+            </table>
+        
+
+        <!-- end table -->
+                   </div>
+                </form>
+        
+        </div>
+        <!-- <div class="col">
+
+        </div> -->
+  
+    </div>
+</div>
+
+{% endblock %}

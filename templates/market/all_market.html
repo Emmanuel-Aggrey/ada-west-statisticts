@@ -1,0 +1,100 @@
+{% extends 'layout/app.html' %}
+{% load crispy_forms_tags %}
+
+{% block body %}
+
+
+<nav class="breadcrumb">
+    <a class="breadcrumb-item" href="{% url 'home' %}">Home</a>
+
+    <span class="breadcrumb-item active"></span>
+</nav>
+
+<h3 class="text-center"><b>MARKETING SERVICE UNIT! </b></h3>
+<hr>
+
+
+<div class="container">
+   
+     
+        <div class="row">
+        
+            <div class="col">
+                
+         
+
+           {% if request.user.is_staff %}
+                <form method="post" action="" class="">
+                        {% csrf_token %}
+                     
+                        <div class="form-group">
+                      <h4 class="text-muted"> ADD A NEW MARKET</h4> <br>
+                            <!-- <label for="my-input">Market Name</label> <br> -->
+                            {{form|crispy}}   
+                           
+                        </div>
+                       
+                            <button  type="submit" class="btn  mb-4 btn-outline-primary">Submit</button>
+    
+                    </form>
+           
+                
+          
+        {% endif %}
+  
+    </div>
+    <div class="col-sm-12 col-md-8 col-lg-8 col-xl-8">
+   
+
+<h3 class="text-centder"><b>ALL MARKETS ({{market_size}}) </b></h3>
+
+<table class="table table-light table-hover">
+    <thead class="thead-light">
+        <tr>
+            <th>Market Name</th>
+            {% comment %} {% if request.user.is_staff %} {% endcomment %}
+            {% comment %} <th>Add Visit</th> {% endcomment %}
+            {% comment %} {% endif %} {% endcomment %}
+            <th>Visit</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for market in market %}
+          
+      
+        <tr>
+            <td>{{market.name}}</td>
+            {% comment %} {% if request.user.is_staff %} {% endcomment %}
+            {% comment %} <td title="add a new visiting date"><a href="{% url 'market:add_date_to_visit' market.id %}">add</a></td> {% endcomment %}
+            {% comment %} {% endif %} {% endcomment %}
+            <td class="view all visiting date"><a href="{% url 'market:add_new_date' market.id %}">view</a></td>
+        </tr>
+    </tbody>
+  
+    {% endfor %}
+</table>
+
+<nav aria-label="Page navigation example">
+        <ul class="pagination">
+            {% if market.has_previous %}
+                <li class="page-item"><a class="page-link" href="?page={{ market.previous_page_number }}">Previous</a></li>
+            {% else %}    
+                <li class="page-item disabled"><a class="page-link">First</a></li>
+            {% endif %}    
+            {% if market.has_previous %}
+                <li class="page-item"><a class="page-link" href="?page={{ market.previous_page_number }}">{{ market.previous_page_number }}</a></li>
+            {% endif %}
+                <li class="page-item active"><a class="page-link" href="#">{{ market.number }}</a></li>
+            {% if market.has_next %}
+                <li class="page-item"><a class="page-link" href="?page={{ market.next_page_number }}">{{ market.next_page_number }}</a></li>
+                <li class="page-item"><a class="page-link" href="?page={{ market.next_page_number }}">Next</a></li>
+            {% else %}    
+                <li class="page-item disabled"><a class="page-link">End</a></li>
+            {% endif %}    
+        </ul>
+    </nav>
+         
+</div>
+</div>
+</div>
+{% endblock %}

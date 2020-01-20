@@ -1,0 +1,36 @@
+
+{% extends 'layout/app.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block body %}
+
+<nav class="breadcrumb">
+  <a class="breadcrumb-item back" href="#">BACK</a>
+</nav>
+
+{{description.indicator}}
+<div class="container">
+    <div class="row">
+        <div class="col">
+                <form action="" method="POST">
+                        {% csrf_token %}
+                     {{form_update|crispy}}
+                     <button type="submit" class="btn btn-primary">Submit</button>
+                  </form>
+                  
+        </div>
+    </div>
+</div>
+
+<script>
+
+
+document.querySelector('.back').addEventListener('click',goBack)
+function goBack(goback) {
+  window.history.back()
+
+}
+
+</script>
+{% endblock %}

@@ -1,0 +1,73 @@
+{% extends 'layout/app.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block body %}
+<nav class="breadcrumb">
+  <a class="breadcrumb-item back" href="#">BACK</a>
+ 
+</nav>
+
+<div class="container justify-content-center">
+  
+            <div class="card ">
+                    <div class="card-body ">
+                       
+                    {{ department }}
+                
+                    <legend>INDICATORS {{ allIndicator|length }}</legend>
+                    {% for allIndicators in allIndicator %}
+                
+                    <ul>
+                        <li>
+                                <h5 class="card-title">{{ allIndicators.indicator }}</h5>
+                           
+                            
+                            {% if  allIndicators.indicator_baseline %}
+                            <small class="text-muted">baseline {{ allIndicators.indicator_baseline.base_line }} </small> <br>
+                
+                            {% else %}
+                            <small class="text-muted">no baseline  </small> <br>
+                
+                            {% endif %}
+                            <!-- <a title="" href="{% url 'department:add_baseline' allIndicators.id %}">Add Report </a> <br> -->
+                            
+                            {% if allIndicators.indicator_baseline and  request.user.is_staff  %}
+                            <a class="btn btn1" title="add a new record to this indicator"
+                            href="{% url 'department:add_report' allIndicators.indicator_baseline.id %}">Add new recored </a>
+                                            <a  class="btn btn1" title="view records under this indicator" href="{% url 'department:indicator_reports' allIndicators.id %}">view all reports</a>
+
+                            {% elif request.user.is_staff  %}
+                            <a class="btn btn1" title="" href="{% url 'department:add_baseline' allIndicators.id %}">Add Base Line </a> 
+                
+                            {% endif %}
+                            
+                           
+                        </li>
+                    </ul>
+                   
+                
+                    {% empty %}
+                
+                    <p class="text-muted">no indicator available</p>
+                
+                    {% endfor %}
+                
+                
+                </div>
+                
+                    
+    </div>
+
+</div>
+<style>
+.btn1:hover{
+    background-color:darkgray
+
+}
+</style>
+
+ <script src="{% static "bootstrap/js/back.js" %}"></script>
+
+
+{% endblock %}
+

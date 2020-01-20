@@ -1,0 +1,80 @@
+{% extends 'layout/app.html' %}
+{% load crispy_forms_tags %}
+
+{% block body %}
+
+
+<nav class="breadcrumb">
+    <a class="breadcrumb-item" href="{% url 'market:market' %}">Home</a>
+     <a class="breadcrumb-item" href="{% url 'market:add_new_date' request.session.visit_new_date_back_id %}">Back</a>
+
+    <!-- <a class="breadcrumb-item" href="#"></a> -->
+    <span class="breadcrumb-item active"></span>
+</nav>
+
+<div class="float-right mx-4">
+        <button type="button" class="btn btn-muted">
+               total: <span class="badge badge-light">{{products|length}} of {{total_size}}</span>
+              </button> 
+
+</div>
+<ul class="text-center list-unstyled">
+
+    <li><h4>Market Name : {{visit_date.market_name}}</h4></li>
+    <li><h4>Visit Date : {{ visit_date.date }}</h4></li>
+</ul>
+
+ 
+<form class="form-inlin" action="#">
+<div title="search by trader" class="float-right p-4">
+    
+            {{form|crispy}} <button type="submit" class="btn btn-outline-primary fa fa-search mx-4">search</button>
+            
+            
+</div>
+
+<!-- <div class="float-right mx-4 my-4" title="seach">
+        <input title="" placeholder="search" class="seach " value="" type="search" name="keyword"
+              id=""><button type="submit"><i class="fa fa-search"
+                    aria-hidden="true"></i></button>
+                    <hr>
+                 
+  </div> -->
+ <div class='print_me'>
+        <table class="table table-bordered table-striped table-sm">
+     
+ 
+
+                <thead class="alert-info">
+                <tr>
+                    <th>Commodity Name</th>
+                    <th>Commodity Type</th>
+                    <th>Unit Of Sale</th>
+                    <th>Num Of Pieces</th>
+                    <th>Weight</th>
+                    <th> Price (GH₵)</th>
+                    <th>Trader</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for products in products %}
+                    <tr>
+                        <td>{{ products.commodity_type.name }}</td>
+                        <td>{{ products.name }}</td>
+                        <td>{{ products.commodity_type.unit_of_sale }}</td>
+                        <td>{{ products.num_pieces }}</td>
+                        <td>{{ products.weight_volume }}</td>
+                        <td>{{products.price}}</td>
+                        <td>{{products.trader }}</td>
+                            
+                        
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+ </div>
+    </form>
+
+
+{% endblock %}

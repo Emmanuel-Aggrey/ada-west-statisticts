@@ -1,0 +1,52 @@
+{% extends 'layout/app.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block body %}
+
+<nav class="breadcrumb">
+    <a class="breadcrumb-item back" href="#">BACK</a>
+   
+  </nav>
+
+
+<div class="container">
+
+
+    <div class="row justify-content-center">
+      <div class="">
+       <h5 class="text-center text-secondary ">UPDATE RECORD
+    <!-- {{report}} -->
+    </h5>
+          
+           
+       
+
+          <hr>
+          <form action="" method="POST">
+              {% csrf_token %}
+              {{form|crispy}}
+          <input class="btn btn-block btn-outline-dark " id="goback2" type="submit" value="submit">
+          </form>
+      </div>
+    </div>
+    
+</div>
+<script>
+
+document.querySelector('.back').addEventListener('click',goBack)
+function goBack(goback) {
+  window.history.back()
+
+
+}
+document.querySelector('#goback2').addEventListener('click',goback1)
+function goback1() {
+  window.history.back()
+  window.history.back()
+
+}
+
+</script>
+
+
+{% endblock %}

@@ -1,0 +1,146 @@
+{% extends 'layout/app.html' %}
+{% load crispy_forms_tags %}
+
+{% block body %}
+<nav class="breadcrumb">
+    <a class="breadcrumb-item" href="{% url 'home' %}">Home</a>
+    <a class="breadcrumb-item" href="{% url 'market:market' %}">Back</a>
+    <span class="breadcrumb-item active"></span>
+</nav>
+
+<h3 class="text-center"><b><u>MARKETING SERVICE UNIT: </u> </b></h3>
+<h4 class="text-center text-muted">Market Name :{{market.name}}</h4>
+
+<div class="container">
+    <div class="row">
+        
+        <div class="col">
+   
+    {% if request.user.is_staff %}
+    <div class="row float-rigt">
+        <form method="post" action="" class="">
+            {% csrf_token %}
+
+            <h4> ADD A NEW VISITING DATE</h4> <br>
+            <div class="form-group ">
+
+                {{form|crispy}}
+            </div>
+            <button type="submit" class="btn  mb-4 btn-outline-primary">Submit</button>
+
+        </form>
+    </div>
+
+    {% endif %}
+
+
+</div>
+<div class="col">
+    
+
+    <table class="table table-light table-hover">
+
+        <caption>visitind days in : {{market.name}}</caption>
+        <h4 class=""></h4>
+        <tbody class="alert-secondary">
+            <tr>
+
+                <td>Visit Day</td>
+                {% if request.user.is_staff %}
+
+                <td>Add</td>
+                {% endif %}
+                <td  title="view all products under this date">View All</td>
+            </tr>
+            {% for visit_days in visit_day %}
+
+        </tbody>
+
+
+        <td>{{ visit_days.date }}</td>
+        {% if request.user.is_staff %}
+        <td title="add a new commodity" class="td-item"> <a href="{% url 'market:addProduct' visit_days.id %}">add new </a></td>
+        {% endif %}
+        <td class="td-item" title="view all products under this date"> <a href="{% url 'market:all_products' visit_days.id %}">View
+                All</a></td>
+
+                {% empty %}
+                <small class="text-danger ">you haven't visited this market add a new visiting date</small>
+                <i class=" fa fa-hand-o-left fa-3x" aria-hidden="true"></i>
+        {% endfor %}
+    </table>
+
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            {% if visit_day.has_previous %}
+            <li class="page-item"><a class="page-link" href="?page={{ visit_day.previous_page_number }}">Previous</a>
+            </li>
+            {% else %}
+            <li class="page-item disabled"><a class="page-link">First</a></li>
+            {% endif %}
+            {% if visit_day.has_previous %}
+            <li class="page-item"><a class="page-link"
+                    href="?page={{ visit_day.previous_page_number }}">{{ visit_day.previous_page_number }}</a></li>
+            {% endif %}
+            <li class="page-item active"><a class="page-link" href="#">{{ visit_day.number }}</a></li>
+            {% if visit_day.has_next %}
+            <li class="page-item"><a class="page-link"
+                    href="?page={{ visit_day.next_page_number }}">{{ visit_day.next_page_number }}</a></li>
+            <li class="page-item"><a class="page-link" href="?page={{ visit_day.next_page_number }}">Next</a></li>
+            {% else %}
+            <li class="page-item disabled"><a class="page-link">End</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
+
+</div>
+
+    <hr> 
+    <form method="GET" action="">
+        
+   
+
+<div class="float-right" title="seach for name type or unit-of-sale">
+        <input  placeholder="search" class="seach " value="{{request.GET.keyword}}" type="search" name="keyword"
+              id=""><button type="submit"><i class="fa fa-search"
+                    aria-hidden="true"></i></button>
+                
+                 
+  </div> 
+    <h4> ALL COMMODITIES IN <b>{{market.name|upper}}</b> LATEST VALUES</h4>
+
+    <table class="table table-light table-hover">
+
+        <caption> </caption>
+        <h4 class=""></h4>
+        <tbody class="alert-secondary">
+            <tr>
+
+                <td>Name</td>
+                <td>Type</td>
+                <td>Unit of Sale</td>
+                <td>Price</td>
+                <td>view</td>
+            </tr>
+            {% for commodity_types in commodity_type %}
+
+        </tbody>
+
+        <td>{{ commodity_types.commodity_type.name}}</td>
+        <td>{{ commodity_types.name }}</td>
+        <td>{{commodity_types.commodity_type.unit_of_sale}}</td>
+        <td>{{commodity_types.price}}</td>
+        <td class="td-item" title="view price index"><a href="{% url 'market:distinct_commodit_with_graph' commodity_types.name commodity_types.commodity_type.name commodity_types.visit_day.market_name.name commodity_types.commodity_type.unit_of_sale %}">view</a></td>
+
+        {% empty %}
+        <p>nothing available</p>
+
+        {% endfor %}
+    </table>
+</form>
+</div>
+
+
+
+{% endblock %}

@@ -1,0 +1,82 @@
+{% extends 'layout/app.html' %}
+{% load crispy_forms_tags %}
+
+{% block body %}
+
+<nav class="breadcrumb">
+    <a class="breadcrumb-item" href="{% url 'market:market' %}">Home</a>
+    <a class="breadcrumb-item" href="{% url 'market:add_new_date' request.session.visit_new_date_back_id %}">Back</a>
+    <span class="breadcrumb-item active"></span>
+</nav>
+
+
+
+<script>
+// document.querySelector('.back').addEventListener('click',goBack)
+
+// function goBack() {
+// console.log('ok going back aggrey')
+
+  
+// }
+
+// document.addEventListener('keydown',function (params) {
+//   console.log(params.which);
+// })
+
+
+</script>
+
+<ul class="text-center list-unstyled">
+    <li><h4>Market Name : {{visit_date.market_name}}</h4></li>
+    <li><h4>Visit Date : {{ visit_date.date }}</h4></li>
+</ul>
+
+<div class="container">
+        
+        <button type="button" class="btn btn-primary  btn-sm float-right mx-4 " data-toggle="modal" data-target="#exampleModal">
+               add new
+
+              </button>
+              <h6 class="text-muted float-right">commodity not available ? </h6>
+<br>
+              <!-- Modal -->
+              <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">ADD NEW COMMODITY</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                   <form action="" method="post">
+                       {% csrf_token %}
+                        {{commodityForm|crispy}}
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      <button type="submit" class="btn btn-primary btn-block ">Submit</button>
+
+                   </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+             
+    <div class="row justify-content-center">
+    
+        <form action="" method="post">
+            
+            {% csrf_token %}
+            {{form|crispy}}
+            <button type="submit" class="btn btn-primary btn-block ">Submit</button>
+        </form>
+    </div>
+</div>
+
+
+
+
+{% endblock %}
