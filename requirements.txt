@@ -1,3 +1,3 @@
 django-widget-tweaks
-Django==2.2
+Django==2.2.20
 django-crispy-forms==1.7.2
